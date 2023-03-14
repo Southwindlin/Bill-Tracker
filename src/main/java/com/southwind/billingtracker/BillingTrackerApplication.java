@@ -1,16 +1,25 @@
 package com.southwind.billingtracker;
 
+import com.southwind.billingtracker.config.flyway.FlywayConfiguration;
+import jakarta.annotation.PostConstruct;
 import org.flywaydb.core.Flyway;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 public class BillingTrackerApplication {
 
+    @Autowired
+    private FlywayMigration flywayMigration;
+
     public static void main(String[] args) {
-        Flyway flyway = Flyway.configure().dataSource("jdbc:postgresql://freetier-database.crefwdc52wtj.us-east-1.rds.amazonaws.com/postgres", "southwind0523", "password").load();
-        flyway.migrate();
         SpringApplication.run(BillingTrackerApplication.class, args);
     }
 
+    @PostConstruct
+    public void migrateDatabase() {
+        flywayMigration.migrate();
+    }
 }
