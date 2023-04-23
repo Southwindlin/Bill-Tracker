@@ -1,7 +1,3 @@
-CREATE DATABASE billsplitter;
-
-\c billsplitter;
-
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        name VARCHAR(255) NOT NULL,
